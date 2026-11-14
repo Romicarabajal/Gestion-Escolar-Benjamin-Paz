@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Gestión Escolar Escuela Secundaria Benjamín Paz</title>
+  <!-- Estilos y configuración de instalación. -->
+<link rel="stylesheet" href="./styles.css">
+
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#A67C52">
+  <link rel="icon" type="image/png" href="./icono-192.png">
+  <link rel="apple-touch-icon" href="./icono-192.png">
+</head>
+<body>
+<header>
+<!-- Logo ilustrativo creado para la aplicación; no es un escudo oficial. -->
+<div class="identidad-escuela">
+  <svg class="logo-escuela" viewBox="0 0 80 80" role="img" aria-labelledby="titulo-logo">
+    <title id="titulo-logo">Logo ilustrativo: libro abierto y sol</title>
+    <circle cx="40" cy="40" r="37" fill="#FAF6F0" stroke="#765334" stroke-width="2"/>
+    <circle cx="40" cy="24" r="8" fill="#E4BC73"/>
+    <path d="M18 32 Q29 27 40 35 Q51 27 62 32 V54 Q51 50 40 58 Q29 50 18 54 Z" fill="#F1E3D3" stroke="#765334" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M40 35 V58 M24 38 Q30 36 35 40 M24 44 Q30 42 35 46 M45 40 Q51 36 56 38 M45 46 Q51 42 56 44" fill="none" stroke="#A67C52" stroke-width="2" stroke-linecap="round"/>
+    <text x="40" y="69" text-anchor="middle" fill="#765334" font-family="system-ui, sans-serif" font-size="8" font-weight="700">EBP</text>
+  </svg>
+  <h1><span class="titulo-sistema">Sistema de Gestión Escolar</span><span class="nombre-escuela">Escuela Secundaria Benjamín Paz</span></h1>
+</div>
+<!-- Enlaces de navegación entre las cinco secciones. -->
+<nav aria-label="Menú principal"><ul>
+<li><a href="#inicio">🏠 Inicio</a></li>
+<li><a href="#cursos">📚 Cursos</a></li>
+<li><a href="#alumnos">🎒 Alumnos</a></li>
+<li><a href="#docentes">👩‍🏫 Docentes</a></li>
+<li><a href="#asignaciones">📋 Asignaciones</a></li>
+</ul></nav></header>
+<main>
+<section id="inicio"><h2>Inicio</h2>
+<p>Administrá cursos, alumnos, docentes y asignaciones en este navegador.</p>
+<p><strong>Ejemplos ficticios:</strong> en el primer uso se incluyen 3 cursos, 6 alumnos, 3 docentes y 5 asignaciones para practicar. Si ya tenés datos guardados, se conservan.</p>
+<div id="contadores-inicio" class="contenedor-contadores" aria-live="polite"></div>
+<form id="formulario-datos"><fieldset><legend>Exportar e importar datos</legend>
+<button type="button" id="boton-exportar">📤 Exportar</button>
+<label for="archivo-importar">Archivo JSON para importar</label>
+<input type="file" id="archivo-importar" accept=".json,application/json">
+<button type="button" id="boton-importar">📥 Importar</button>
+</fieldset></form>
+</section>
+<section id="cursos" hidden><h2>Cursos</h2>
+<!-- Formulario de alta y edición. -->
+<form id="formulario-curso">
+<label for="curso-anio">Año</label>
+<input id="curso-anio" name="anio" type="number" inputmode="numeric" min="1" step="1" required>
+
+<label for="curso-division">División</label>
+<input id="curso-division" name="division" type="text" required>
+
+<label for="curso-turno">Turno</label>
+<select id="curso-turno" name="turno" required><option value="">Seleccioná una opción</option><option value="manana">Mañana</option><option value="tarde">Tarde</option><option value="noche">Noche</option></select>
+
+<label for="curso-especialidad">Especialidad</label>
+<input id="curso-especialidad" name="especialidad" type="text">
+
+<button type="submit">Guardar</button><button type="button" class="cancelar" hidden>Cancelar edición</button></form>
+<h3>Cursos registrados</h3>
+<ul id="lista-cursos" class="lista-tarjetas"></ul>
+<article id="ficha-curso" class="ficha" hidden></article>
+</section>
+<section id="alumnos" hidden><h2>Alumnos</h2>
+<!-- Formulario de alta y edición. -->
+<form id="formulario-alumno">
+<label for="alumno-legajo">Legajo</label>
+<input id="alumno-legajo" name="legajo" type="text" required>
+
+<label for="alumno-nombre">Nombre</label>
+<input id="alumno-nombre" name="nombre" type="text" required>
+
+<label for="alumno-apellido">Apellido</label>
+<input id="alumno-apellido" name="apellido" type="text" required>
+
+<label for="alumno-fechaNacimiento">Fecha de nacimiento</label>
+<input id="alumno-fechaNacimiento" name="fechaNacimiento" type="date" required>
+
+<label for="alumno-cursoId">Curso</label>
+<select id="alumno-cursoId" name="cursoId" required><option value="">Seleccioná una opción</option></select>
+
+<button type="submit">Guardar</button><button type="button" class="cancelar" hidden>Cancelar edición</button></form>
+<form id="filtros-alumnos"><label for="filtro-curso">Filtrar por curso</label><select id="filtro-curso"><option value="">Todos los cursos</option></select>
+<label for="busqueda-alumnos">Buscar por apellido o legajo</label><input type="search" id="busqueda-alumnos" placeholder="Escribí un apellido o legajo"></form>
+<p id="resumen-alumnos" role="status"></p>
+<h3>Alumnos registrados</h3>
+<ul id="lista-alumnos" class="lista-tarjetas"></ul>
+</section>
+<section id="docentes" hidden><h2>Docentes</h2>
+<!-- Formulario de alta y edición. -->
+<form id="formulario-docente">
+<label for="docente-legajo">Legajo</label>
+<input id="docente-legajo" name="legajo" type="text" required>
+
+<label for="docente-nombre">Nombre</label>
+<input id="docente-nombre" name="nombre" type="text" required>
+
+<label for="docente-apellido">Apellido</label>
+<input id="docente-apellido" name="apellido" type="text" required>
+
+<label for="docente-email">Email</label>
+<input id="docente-email" name="email" type="email" required>
+
+<button type="submit">Guardar</button><button type="button" class="cancelar" hidden>Cancelar edición</button></form>
+<h3>Docentes registrados</h3>
+<ul id="lista-docentes" class="lista-tarjetas"></ul>
+</section>
+<section id="asignaciones" hidden><h2>Asignaciones</h2>
+<!-- Formulario de alta y edición. -->
+<form id="formulario-asignacion">
+<label for="asignacion-docenteId">Docente</label>
+<select id="asignacion-docenteId" name="docenteId" required><option value="">Seleccioná una opción</option></select>
+
+<label for="asignacion-cursoId">Curso</label>
+<select id="asignacion-cursoId" name="cursoId" required><option value="">Seleccioná una opción</option></select>
+
+<label for="asignacion-materia">Materia</label>
+<input id="asignacion-materia" name="materia" type="text" required>
+
+<label for="asignacion-horasSemanales">Horas semanales</label>
+<input id="asignacion-horasSemanales" name="horasSemanales" type="number" inputmode="numeric" min="1" step="1" max="10" required>
+
+<button type="submit">Guardar</button><button type="button" class="cancelar" hidden>Cancelar edición</button></form>
+<h3>Asignaciones registrados</h3>
+<div class="tabla-desplazable" role="region" aria-label="Tabla de asignaciones" tabindex="0"><table><caption>Asignaciones de docentes a cursos</caption><thead><tr><th scope="col">Docente</th><th scope="col">Curso</th><th scope="col">Materia</th><th scope="col">Horas semanales</th><th scope="col">Acciones</th></tr></thead><tbody id="lista-asignaciones"></tbody></table></div>
+</section>
+</main><!-- Código de la aplicación: se ejecuta después del contenido. -->
+<script src="./app.js"></script>
+</body></html>
